@@ -12,84 +12,182 @@
 </head>
 
 <body>
+    <!-- HEADER CON EL MISMO DISEÑO QUE EL INDEX -->
     <header class="navbar">
         <div class="container d-flex justify-content-between align-items-center">
-            <img src="../img/Logo_Header_Letras_Blancas.png" alt="Logo Foodi'n Line" class="logo" />
+            <a href="index.html">
+                <img src="../img/Logo_Header_Letras_Blancas.png" alt="Logo" class="logo" />
+            </a>
             
+            <!-- Buscador (Opcional en perfil, lo mantenemos para consistencia) -->
+            <div class="search-bar d-none d-md-flex">
+                <input type="text" placeholder="Buscar restaurantes..." />
+                <button><i class="bi bi-search"></i></button>
+            </div>
+
             <div class="user-actions">
+                <!-- Notificaciones -->
                 <div class="action-item">
-                    <i class="bi bi-bell-fill"></i>
-                    <div class="dropdown-menu">
-                        <p>Notificaciones</p>
+                    <button class="icon-btn" onclick="toggleMenu('notif-dropdown', this)">
+                        <i class="bi bi-bell-fill"></i>
+                    </button>
+                    <div class="dropdown-menu" id="notif-dropdown">
+                        <div class="dropdown-header">
+                            <h6>Notificaciones</h6>
+                        </div>
+                        <a href="#" class="dropdown-item-custom"><i class="bi bi-check-circle-fill text-success"></i> Pedido entregado</a>
                     </div>
                 </div>
 
+                <!-- Perfil (Menú Activo) -->
                 <div class="action-item">
-                    <i class="bi bi-person-circle"></i>
-                    <div class="dropdown-menu">
-                        <a href="perfil.html">Mi Perfil</a>
-                        <a href="index.html">Volver a restaurantes</a>
-                        <a href="login.html">Cerrar sesión</a>
+                    <div class="profile-btn active" onclick="toggleMenu('profile-dropdown', this)">
+                        <div class="avatar-circle">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <span>Mi Cuenta</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                    
+                    <div class="dropdown-menu" id="profile-dropdown">
+                        <div class="dropdown-header">
+                            <h6>¡Hola, Juan!</h6>
+                            <small>juan@ejemplo.com</small>
+                        </div>
+                        <a href="perfil.html" class="dropdown-item-custom fw-bold text-warning"><i class="bi bi-person-circle"></i> Mi Perfil</a>
+                        <a href="#" class="dropdown-item-custom"><i class="bi bi-bag-check"></i> Mis Pedidos</a>
+                        <a href="#" class="dropdown-item-custom"><i class="bi bi-geo-alt"></i> Direcciones</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login.html" class="dropdown-item-custom text-danger"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="container mt-5">
-        <div class="bg-white p-4 p-md-5 rounded-4 shadow-lg">
-            <div class="row">
+    <!-- CONTENIDO DEL PERFIL -->
+    <main class="container mt-4 mb-5">
+        <div class="profile-container">
+            
+            <!-- Tarjeta Principal del Perfil -->
+            <div class="profile-header-card">
+                <div class="profile-banner"></div>
                 
-                <!-- Sección Foto -->
-                <div class="col-md-4 text-center border-end border-2" style="border-color: var(--bg-cream) !important;">
-                    <div class="py-4">
-                        <div class="mx-auto d-flex align-items-center justify-content-center shadow" 
-                             style="width: 180px; height: 180px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-orange), var(--secondary-yellow));">
-                            <i class="bi bi-person-fill text-white" style="font-size: 100px;"></i>
-                        </div>
-                        <h3 class="mt-4 fw-bold text-dark" id="profile-fullname">Cargando...</h3>
-                        <p class="text-muted" id="profile-email-small">correo@ejemplo.com</p>
+                <div class="profile-avatar-container">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                
+                <div class="profile-info-header">
+                    <h3 id="profile-fullname">Juan Pérez</h3>
+                    <p id="profile-email-small">juan.perez@ejemplo.com</p>
+                    <div class="badge-points">
+                        <i class="bi bi-star-fill"></i> 120 Puntos Foodi
                     </div>
                 </div>
 
-                <!-- Sección Información -->
-                <div class="col-md-8">
-                    <div class="ps-md-5 pt-4 pt-md-0">
-                        <h2 class="fw-bold mb-4" style="color: var(--primary-orange); border-bottom: 3px solid var(--secondary-yellow); display: inline-block; padding-bottom: 5px;">
-                            Información Personal
-                        </h2>
-                        
-                        <div class="p-4 rounded-3" style="background-color: var(--bg-cream);">
-                            
-                            <div class="mb-3 pb-3 border-bottom">
-                                <label class="fw-bold text-muted small"><i class="bi bi-person-fill me-2"></i>Nombre</label>
-                                <p class="fs-5 m-0 text-dark fw-semibold" id="profile-name">Cargando...</p>
-                            </div>
-
-                            <div class="mb-3 pb-3 border-bottom">
-                                <label class="fw-bold text-muted small"><i class="bi bi-person-fill me-2"></i>Apellido</label>
-                                <p class="fs-5 m-0 text-dark fw-semibold" id="profile-lastname">Cargando...</p>
-                            </div>
-
-                            <div class="mb-3 pb-3 border-bottom">
-                                <label class="fw-bold text-muted small"><i class="bi bi-envelope-fill me-2"></i>Correo Electrónico</label>
-                                <p class="fs-5 m-0 text-dark fw-semibold" id="profile-email">correo@ejemplo.com</p>
-                            </div>
-
-                            <div>
-                                <label class="fw-bold text-muted small"><i class="bi bi-calendar-fill me-2"></i>Miembro desde</label>
-                                <p class="fs-5 m-0 text-dark fw-semibold" id="profile-date">Enero 2025</p>
-                            </div>
-
+                <!-- Grid de Datos -->
+                <div class="profile-details-grid">
+                    
+                    <div class="info-box">
+                        <div class="info-icon"><i class="bi bi-person-badge"></i></div>
+                        <div class="info-content">
+                            <label>Nombre Completo</label>
+                            <span id="profile-name">Juan Pérez</span>
                         </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-icon"><i class="bi bi-envelope"></i></div>
+                        <div class="info-content">
+                            <label>Correo Electrónico</label>
+                            <span id="profile-email">juan@ejemplo.com</span>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-icon"><i class="bi bi-telephone"></i></div>
+                        <div class="info-content">
+                            <label>Teléfono</label>
+                            <span id="profile-phone">+503 7777-7777</span>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-icon"><i class="bi bi-calendar-check"></i></div>
+                        <div class="info-content">
+                            <label>Miembro desde</label>
+                            <span id="profile-date">Enero 2025</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Sección de Historial -->
+            <div class="history-section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="m-0 fw-bold"><i class="bi bi-clock-history text-warning me-2"></i> Historial Reciente</h4>
+                    <button class="btn btn-outline-dark btn-sm rounded-pill px-3">Ver Todo</button>
+                </div>
+
+                <!-- Pedido 1 -->
+                <div class="history-card">
+                    <div class="d-flex align-items-center">
+                        <div class="history-icon"><i class="bi bi-bag-check-fill"></i></div>
+                        <div>
+                            <h6 class="m-0 fw-bold text-dark">Papa John's</h6>
+                            <small class="text-muted">Hace 2 días • 3 artículos</small>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <span class="fw-bold fs-5" style="color: var(--primary-orange);">$25.50</span>
+                    </div>
+                </div>
+
+                <!-- Pedido 2 -->
+                <div class="history-card">
+                    <div class="d-flex align-items-center">
+                        <div class="history-icon" style="background: #e3f2fd; color: #1565c0;"><i class="bi bi-bag-check-fill"></i></div>
+                        <div>
+                            <h6 class="m-0 fw-bold text-dark">Wendy's</h6>
+                            <small class="text-muted">Hace 1 semana • 2 artículos</small>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <span class="fw-bold fs-5" style="color: var(--primary-orange);">$12.40</span>
                     </div>
                 </div>
 
             </div>
+
         </div>
     </main>
 
-    <!-- Script de tu compañero de backend -->
-    <script src="../BackEnd/datosPerfil/PerfilFunctions.js"></script>
+    <!-- SCRIPT PARA EL MENÚ DESPLEGABLE -->
+    <script>
+        function toggleMenu(menuId, triggerElement) {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                if(menu.id !== menuId) menu.classList.remove('show');
+            });
+            document.querySelectorAll('.profile-btn').forEach(btn => btn.classList.remove('active'));
+
+            const menu = document.getElementById(menuId);
+            menu.classList.toggle('show');
+
+            if(menuId === 'profile-dropdown') {
+                triggerElement.classList.toggle('active');
+            }
+        }
+
+        window.addEventListener('click', function(e) {
+            if (!e.target.closest('.action-item')) {
+                document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.remove('show'));
+                document.querySelectorAll('.profile-btn').forEach(btn => btn.classList.remove('active'));
+            }
+        });
+    </script>
+    
+    <!-- Script de tu compañero de backend (si es que lo necesitas) -->
+    <!-- <script src="../BackEnd/datosPerfil/PerfilFunctions.js"></script> -->
 </body>
 </html>

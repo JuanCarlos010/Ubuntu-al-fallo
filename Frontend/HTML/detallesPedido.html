@@ -12,16 +12,16 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
+  <!-- Header con Glassmorphism -->
   <header class="navbar">
     <div class="container d-flex justify-content-between align-items-center">
-      <!-- Logo clickeable que vuelve al index -->
       <a href="index.html">
         <img src="../img/Logo_Header_Letras_Blancas.png" class="logo" alt="Logo">
       </a>
       
       <div class="user-actions">
-        <a href="index.html" class="text-white text-decoration-none fw-bold">
-            <i class="bi bi-arrow-left-circle me-1"></i> Volver al Menú
+        <a href="index.html" class="text-white text-decoration-none fw-bold d-flex align-items-center gap-2">
+            <i class="bi bi-arrow-left-circle"></i> <span class="d-none d-md-inline">Volver al Menú</span>
         </a>
       </div>
     </div>
@@ -30,9 +30,15 @@
   <div class="main">
     <div class="content-area">
       
-      <div class="text-center mb-5">
-          <h2 class="fw-bold text-dark">Tu Pedido en <span style="color: var(--primary-orange);">Papa John's</span></h2>
-          <p class="text-muted">Revisa tus productos antes de ordenar</p>
+      <!-- Encabezado de la Tienda -->
+      <div class="d-flex align-items-center mb-5 gap-4">
+          <div class="bg-white p-2 rounded-circle shadow-sm">
+             <i class="bi bi-shop fs-1 text-warning"></i>
+          </div>
+          <div>
+              <h2 class="fw-bold text-dark m-0">Papa John's</h2>
+              <p class="text-muted m-0"><i class="bi bi-star-fill text-warning"></i> 4.8 (500+ reseñas) • 25-35 min</p>
+          </div>
       </div>
 
       <!-- Layout: Productos izquierda, Resumen derecha -->
@@ -40,6 +46,8 @@
         
         <!-- ===== COLUMNA IZQUIERDA: Productos ===== -->
         <section class="menu">
+          <h3 class="section-title">Menú</h3>
+          
           <div class="menu-grid">
             
             <!-- Producto 1 -->
@@ -47,13 +55,12 @@
               <img src="../img/pizza_ejemplo.jpg" alt="Pizza">
               <div class="menu-info">
                 <h4>The Works</h4>
-                <p class="precio-unitario">$ 15.99 c/u</p>
-                <!-- Subtotal dinámico por producto -->
-                <p class="subtotal-item">Subtotal: $ <span id="subtotal1">0.00</span></p>
+                <p class="precio-unitario">Pizza grande con pepperoni, salchicha, champiñones...</p>
+                <p class="subtotal-item">$ <span id="subtotal1">15.99</span></p>
               </div>
               <div class="qty-container">
                 <button class="qty-btn" onclick="decreasing(1)">-</button>
-                <span id="qty1">0</span>
+                <span id="qty1">1</span>
                 <button class="qty-btn" onclick="increasing(1)">+</button>
               </div>
             </div>
@@ -63,30 +70,38 @@
               <img src="../img/pasta_ejemplo.jpg" alt="Pasta">
               <div class="menu-info">
                 <h4>Alfredo Delight</h4>
-                <p class="precio-unitario">$ 15.99 c/u</p>
-                <p class="subtotal-item">Subtotal: $ <span id="subtotal2">0.00</span></p>
+                <p class="precio-unitario">Pasta con salsa alfredo cremosa y pollo grillado.</p>
+                <p class="subtotal-item">$ <span id="subtotal2">12.50</span></p>
               </div>
               <div class="qty-container">
                 <button class="qty-btn" onclick="decreasing(2)">-</button>
-                <span id="qty2">0</span>
+                <span id="qty2">1</span>
                 <button class="qty-btn" onclick="increasing(2)">+</button>
               </div>
             </div>
 
           </div>
+
+          <!-- ===== NUEVA SECCIÓN: COMENTARIOS ===== -->
+          <div class="review-section">
+              <h4 class="mb-3"><i class="bi bi-chat-text-fill text-warning me-2"></i>Instrucciones especiales</h4>
+              <p class="text-muted small mb-3">¿Alguna alergia o preferencia? Dínoslo aquí.</p>
+              <textarea class="review-input" placeholder="Ej: Sin cebolla en la pizza, por favor. Tocar el timbre 2 veces."></textarea>
+              <div class="text-end">
+                  <button class="btn-submit-review">Guardar Nota</button>
+              </div>
+          </div>
+
         </section>
 
         <!-- ===== COLUMNA DERECHA: Resumen del Pedido ===== -->
         <aside class="order-summary">
-          <h5><i class="bi bi-receipt me-2"></i>Resumen del Pedido</h5>
+          <h5><i class="bi bi-bag-check-fill me-2 text-warning"></i>Tu Pedido</h5>
           
           <!-- Desglose de productos -->
           <div class="summary-items" id="summary-items">
-            <p class="text-muted small mb-0">Aún no hay productos seleccionados.</p>
+            <!-- Se llena con JS -->
           </div>
-
-          <!-- Divider -->
-          <hr class="my-3">
 
           <!-- Total -->
           <div class="total-row">
@@ -96,7 +111,7 @@
 
           <!-- Botón Confirmar -->
           <button class="btn-checkout" onclick="confirmarPedido()">
-            <i class="bi bi-check-circle me-2"></i> Confirmar Pedido
+            <i class="bi bi-check-circle-fill"></i> Confirmar Pedido
           </button>
         </aside>
 
@@ -106,9 +121,17 @@
 
   <script>
     // ===== LÓGICA DE CANTIDADES Y PRECIOS =====
-    let cantidades = {1: 0, 2: 0};
-    const precios = {1: 15.99, 2: 15.99};
+    // Inicializamos con 1 producto para que se vea mejor la vista
+    let cantidades = {1: 1, 2: 1}; 
+    const precios = {1: 15.99, 2: 12.50};
     const nombres = {1: "The Works", 2: "Alfredo Delight"};
+
+    // Función para inicializar la vista
+    function init() {
+        document.getElementById('qty1').innerText = cantidades[1];
+        document.getElementById('qty2').innerText = cantidades[2];
+        actualizarTotal();
+    }
 
     function increasing(id) {
       cantidades[id]++;
@@ -127,20 +150,16 @@
     function actualizarTotal() {
       let total = 0;
       
-      // Actualizar subtotales individuales y resumen
       for (let id in cantidades) {
         let subtotal = cantidades[id] * precios[id];
         total += subtotal;
         
-        // Actualizar subtotal de cada producto (izquierda)
+        // Actualizar subtotal visual en la card (opcional)
         let subtotalEl = document.getElementById('subtotal' + id);
-        if (subtotalEl) subtotalEl.innerText = subtotal.toFixed(2);
+        if (subtotalEl) subtotalEl.innerText = (cantidades[id] * precios[id]).toFixed(2);
       }
       
-      // Actualizar total general (derecha)
       document.getElementById('price').innerText = total.toFixed(2);
-
-      // Actualizar desglose en el resumen
       actualizarResumen();
     }
 
@@ -155,7 +174,7 @@
           let subtotal = (cantidades[id] * precios[id]).toFixed(2);
           itemsHTML += `
             <div class="summary-item">
-              <span><strong>${cantidades[id]}x</strong> ${nombres[id]}</span>
+              <span><span class="badge bg-warning text-dark me-2">${cantidades[id]}</span> ${nombres[id]}</span>
               <span>$${subtotal}</span>
             </div>
           `;
@@ -165,7 +184,7 @@
       if (hayProductos) {
         contenedor.innerHTML = itemsHTML;
       } else {
-        contenedor.innerHTML = '<p class="text-muted small mb-0">Aún no hay productos seleccionados.</p>';
+        contenedor.innerHTML = '<p class="text-muted small text-center my-3">Tu carrito está vacío</p>';
       }
     }
 
@@ -187,7 +206,7 @@
         allowOutsideClick: false
       }).then((result) => {
         if (result.isConfirmed) {
-          // 🔥 GUARDAR NOTIFICACIÓN PARA EL INDEX
+          // Guardar notificación (Simulado)
           let notificaciones = JSON.parse(localStorage.getItem('notificaciones')) || [];
           let nuevaNotif = {
             mensaje: `Pedido confirmado por $${total} en Papa John's`,
@@ -201,6 +220,9 @@
         }
       });
     }
+    
+    // Ejecutar init al cargar
+    document.addEventListener('DOMContentLoaded', init);
   </script>
 </body>
 </html>
