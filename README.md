@@ -80,28 +80,28 @@ Para reducir drásticamente la superficie de ataque del servidor y cumplir con e
    sudo nano /etc/ssh/sshd_config.d/99-seguridad.conf
    ```
 
-# Autenticación y Accesos
-PasswordAuthentication no
-PermitRootLogin no
-AllowGroups adminweb sudo
-MaxAuthTries 3
-LoginGraceTime 20
-PermitEmptyPasswords no
+#### Autenticación y Accesos
+- PasswordAuthentication no
+- PermitRootLogin no
+- AllowGroups adminweb sudo
+- MaxAuthTries 3
+- LoginGraceTime 20
+- PermitEmptyPasswords no
 
-# Bloqueo de métodos interactivos y externos
-ChallengeResponseAuthentication no
-KerberosAuthentication no
-GSSAPIAuthentication no
+#### Bloqueo de métodos interactivos y externos
+- ChallengeResponseAuthentication no
+- KerberosAuthentication no
+- GSSAPIAuthentication no
 
-# Prevención de túneles, proxys y manipulación de entorno
-X11Forwarding no
-PermitUserEnvironment no
-AllowAgentForwarding no
-AllowTcpForwarding no
-PermitTunnel no
+#### Prevención de túneles, proxys y manipulación de entorno
+- X11Forwarding no
+- PermitUserEnvironment no
+- AllowAgentForwarding no
+- AllowTcpForwarding no
+- PermitTunnel no
 
-# Ocultamiento de información del sistema
-DebianBanner no
+#### Ocultamiento de información del sistema
+- DebianBanner no
 
 2. Buscamos reiniciar el sistema
 
@@ -128,12 +128,6 @@ Como parte de los requisitos de evaluación, se habilita intencionalmente una vu
 ```bash
 sudo ufw allow 8080/tcp
 ```
-
-usuarios y credenciales: [Stand by...]
-
-vulnerabilidades: se tiene pensado usar mysql inyeccion y ports
-
-flujo de trabajo: [stand by..]
 
 ### Fase 8: Minimización del Sistema y Optimización de Recursos
 Para maximizar la memoria RAM disponible para los contenedores de Docker y reducir la superficie de ataque del sistema operativo, se deshabilitan permanentemente servicios predeterminados de Ubuntu que no son requeridos en un entorno de servidor virtualizado.
@@ -169,4 +163,13 @@ Dentro del bloque http {...} es necesario modificar y agregar lo siguiente:
 ```bash
 sudo systemctl restart nginx
 ```
+
+
+
+
+usuarios y credenciales: [Stand by...]
+
+vulnerabilidades: se tiene pensado usar mysql inyeccion y ports
+
+flujo de trabajo: [stand by..]
 
