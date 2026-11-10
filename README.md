@@ -72,17 +72,41 @@ guia de instalacion:
    sudo chmod 600 /home/<usuario>/.ssh/authorized_keys
    ```
 
-### Fase 5: Hardening (Bloqueo de contraseñas)
-Para que el inicio de sesión sea exclusivo mediante llaves criptográficas:
-1. Crear o editar el archivo de reglas SSH:
+### Fase 5: Hardening Avanzado (Endurecimiento de SSH)
+Para reducir drásticamente la superficie de ataque del servidor y cumplir con estándares de seguridad empresarial, el inicio de sesión se ha restringido exclusivamente a llaves criptográficas y se han deshabilitado protocolos vulnerables.
+
+1. Editar el archivo de reglas prioritarias de SSH:
    ```bash
    sudo nano /etc/ssh/sshd_config.d/99-seguridad.conf
    ```
-2. Agregar las siguientes directivas, guardar y cerrar:
-   ```text
-   PasswordAuthentication no
-   AllowGroups adminweb sudo
-   ```
+
+# Autenticación y Accesos
+PasswordAuthentication no
+PermitRootLogin no
+AllowGroups adminweb sudo
+MaxAuthTries 3
+LoginGraceTime 20
+PermitEmptyPasswords no
+
+# Bloqueo de métodos interactivos y externos
+ChallengeResponseAuthentication no
+KerberosAuthentication no
+GSSAPIAuthentication no
+
+# Prevención de túneles, proxys y manipulación de entorno
+X11Forwarding no
+PermitUserEnvironment no
+AllowAgentForwarding no
+AllowTcpForwarding no
+PermitTunnel no
+
+# Ocultamiento de información del sistema
+DebianBanner no
+
+2. Buscamos reiniciar el sistema
+
+sudo systemctl restart ssh
+
 
 ### Fase 6: Estructura del Proyecto Web
 1. Crear la carpeta raíz del proyecto:
@@ -110,4 +134,39 @@ usuarios y credenciales: [Stand by...]
 vulnerabilidades: se tiene pensado usar mysql inyeccion y ports
 
 flujo de trabajo: [stand by..]
+
+### Fase 8: Minimización del Sistema y Optimización de Recursos
+Para maximizar la memoria RAM disponible para los contenedores de Docker y reducir la superficie de ataque del sistema operativo, se deshabilitan permanentemente servicios predeterminados de Ubuntu que no son requeridos en un entorno de servidor virtualizado.
+
+1. Detener y deshabilitar servicios de hardware, impresión y redes inalámbricas innecesarias:
+   ```bash
+   sudo systemctl disable --now multipathd
+   sudo systemctl disable --now bluetooth
+   sudo systemctl disable --now ModemManager
+   sudo systemctl disable --now wpa_supplicant
+   sudo systemctl disable --now cups
+   sudo systemctl disable --now avahi-daemon
+    ```
+
+### Fase 9: Hardening del Servidor Web (Nginx)
+
+Para proteger la aplicación web contra ataques comunes y evitar la fuga de información sobre la infraestructura, se han aplicado cabeceras de seguridad HTTP y se ha ocultado la versión exacta del servidor.
+
+1. Abrir el archivo de configuración principal de Nginx:
+   ```bash
+   sudo nano /etc/nginx/nginx.conf
+   ```
+Dentro del bloque http {...} es necesario modificar y agregar lo siguiente:
+
+- server_tokens off;
+
+- add_header X-XSS-Protection "1; mode=block";
+- add_header X-Frame-Options "SAMEORIGIN";
+- add_header Content-Security-Policy "default-src 'self'; frame-ancestors 'self';" always;
+
+2. Procedemos a reiniciar el servicio
+
+```bash
+sudo systemctl restart nginx
+```
 
