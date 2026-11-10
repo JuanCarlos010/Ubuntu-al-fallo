@@ -105,8 +105,9 @@ Para reducir drásticamente la superficie de ataque del servidor y cumplir con e
 
 2. Buscamos reiniciar el sistema
 
+``` bash
 sudo systemctl restart ssh
-
+```
 
 ### Fase 6: Estructura del Proyecto Web
 1. Crear la carpeta raíz del proyecto:
@@ -164,8 +165,47 @@ Dentro del bloque http {...} es necesario modificar y agregar lo siguiente:
 sudo systemctl restart nginx
 ```
 
+### Fase 10: Implementación de Web Application Firewall (ModSecurity)
+Para añadir protección de Capa 7 (inspección profunda de peticiones HTTP), se instaló ModSecurity. La configuración base se obtiene directamente del repositorio oficial (SpiderLabs) y se parcha un error conocido de sintaxis para asegurar la compatibilidad. Se ejecuta en modo `DetectionOnly` para evitar bloqueos por falsos positivos.
 
+1. Instalar el módulo dinámico de ModSecurity para Nginx:
+   ```bash
+   sudo apt update
+   sudo apt install -y libnginx-mod-http-modsecurity
+   ```
 
+2. Descargas las configuraciones recomendadas y el mapa de caracteres (Unicode) oficiales:
+
+```bash
+sudo mkdir -p /etc/modsecurity
+sudo wget -O /etc/modsecurity/modsecurity.conf [https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended](https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended)
+sudo wget -O /etc/modsecurity/unicode.mapping [https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/unicode.mapping](https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/unicode.mapping)
+```
+3. Arreglar un bug dentro del archivo
+
+```bash
+sudo nano +85 /etc/modsecurity/modsecurity.conf
+```
+Es necesario agregar un # hasta que salgan las comillas
+
+4. Garantizar que el motor opere en modo detección
+
+```bash
+sudo sed -i 's/SecRuleEngine On/SecRuleEngine DetectionOnly/g' /etc/modsecurity/modsecurity.conf
+```
+
+5. Vinculamos el servicio
+
+```bash
+modsecurity on;
+modsecurity_rules_file /etc/modsecurity/modsecurity.conf;
+```
+
+6. Reiniciamos
+
+```bash
+sudo systemctl restart nginx
+```
 
 usuarios y credenciales: [Stand by...]
 
