@@ -6,7 +6,104 @@ Descripcion: El proyecto sera una pagina web para venta de semejante a un "pedid
 arquitectura: Se hara uso de html, css y javascript para hacer la pagina web, se tiene pensado en una division backend/frontend
         para luego tener la base de datos en backend, con mysql como gestor de base de datos
 
-guia de instalacion: [Stand by...]
+guia de instalacion:
+
+### Fase 1: Instalación de Servicios Base y SSH
+1. Actualizar el sistema e instalar dependencias clave, Nginx y Docker:
+   ```bash
+   sudo apt update -y
+   sudo apt install -y git curl dos2unix nginx docker.io docker-compose-v2
+   ```
+2. Instalar y habilitar el servidor OpenSSH:
+   ```bash
+   sudo apt install openssh-server
+   sudo systemctl enable --now ssh
+   sudo systemctl status ssh
+   ```
+
+### Fase 2: Configuración del Firewall (UFW) y Servicios
+1. Permitir tráfico esencial y habilitar el firewall:
+   ```bash
+   sudo ufw allow OpenSSH
+   sudo ufw allow 'Nginx Full'
+   sudo ufw --force enable
+   ```
+2. Asegurar el funcionamiento de Nginx y Docker tras reinicios:
+   ```bash
+   sudo systemctl enable --now nginx docker
+   ```
+
+### Fase 3: Gestión de Usuarios y Permisos
+1. Crear el grupo de administración web:
+   ```bash
+   sudo groupadd adminweb
+   ```
+2. Crear usuarios del equipo (repetir por integrante):
+   ```bash
+   sudo adduser <nombre_usuario>
+   ```
+3. Otorgar privilegios de administrador (`sudo`) y acceso al grupo web:
+   ```bash
+   sudo usermod -aG sudo <nombre_usuario>
+   sudo usermod -aG adminweb <nombre_usuario>
+   ```
+4. Corroborar la asignación al grupo:
+   ```bash
+   getent group adminweb
+   ```
+
+### Fase 4: Seguridad y Llaves SSH
+1. Crear el directorio oculto para las llaves del usuario:
+   ```bash
+   sudo mkdir -p /home/<nombre_usuario>/.ssh
+   ```
+2. Obtener la llave pública desde la máquina local (ejecutar en la computadora personal):
+   ```bash
+   cat ~/.ssh/id_rsa.pub
+   ```
+3. Pegar la llave pública en el archivo de autorizaciones del servidor:
+   ```bash
+   sudo nano /home/<nombre_usuario>/.ssh/authorized_keys
+   ```
+4. Aplicar permisos estrictos de seguridad:
+   ```bash
+   sudo chown -R <usuario>:<usuario> /home/<usuario>/.ssh
+   sudo chmod 700 /home/<usuario>/.ssh
+   sudo chmod 600 /home/<usuario>/.ssh/authorized_keys
+   ```
+
+### Fase 5: Hardening (Bloqueo de contraseñas)
+Para que el inicio de sesión sea exclusivo mediante llaves criptográficas:
+1. Crear o editar el archivo de reglas SSH:
+   ```bash
+   sudo nano /etc/ssh/sshd_config.d/99-seguridad.conf
+   ```
+2. Agregar las siguientes directivas, guardar y cerrar:
+   ```text
+   PasswordAuthentication no
+   AllowGroups adminweb sudo
+   ```
+
+### Fase 6: Estructura del Proyecto Web
+1. Crear la carpeta raíz del proyecto:
+   ```bash
+   sudo mkdir -p /var/www/html/proyecto
+   ```
+2. Transferir la propiedad al usuario root y al grupo adminweb:
+   ```bash
+   sudo chown -R root:adminweb /var/www/html/proyecto
+   ```
+3. Asignar permisos colaborativos (775) y forzar la herencia de grupo para evitar conflictos al crear nuevos archivos:
+   ```bash
+   sudo chmod -R 775 /var/www/html/proyecto
+   sudo chmod g+s /var/www/html/proyecto
+   ```
+
+### Fase 7: Vulnerabilidad de Servidor
+Como parte de los requisitos de evaluación, se habilita intencionalmente una vulnerabilidad de configuración insegura exponiendo un puerto libre:
+```bash
+sudo ufw allow 8080/tcp
+```
 
 usuarios y credenciales: [Stand by...]
 
