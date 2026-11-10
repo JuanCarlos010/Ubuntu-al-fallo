@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foodi'n Line - Restaurantes</title>
+    <link rel="icon" href="../img/MotoAzulLogo.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="../CSS/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <header class="navbar">
+        <div class="container d-flex justify-content-between align-items-center">
+            <img src="../img/Logo_Header_Letras_Blancas.png" alt="Logo" class="logo" />
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar restaurantes o platos" />
+                <button><i class="bi bi-search"></i></button>
+            </div>
+
+            <div class="user-actions">
+                <div class="action-item">
+                    <i class="bi bi-bell-fill"></i>
+                </div>
+                <div class="action-item">
+                    <i class="bi bi-person-circle"></i>
+                    <div class="dropdown-menu">
+                        <a href="perfil.html">Mi Perfil</a>
+                        <a href="login.html">Iniciar Sesión / Cerrar Sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main">
+        <div class="content-area">
+            
+            <!-- Layout de dos columnas: Izquierda Restaurantes, Derecha Categorías -->
+            <div class="layout-index">
+                
+                <!-- COLUMNA IZQUIERDA: Restaurantes -->
+                <section class="restaurants">
+                    <h2 class="section-title mb-4">Restaurantes</h2>
+                    <div class="restaurant-grid">
+                        
+                        <div class="restaurant-card">
+                            <img src="../img/papa_johns.png" alt="Papa John's" />
+                            <h3>Papa John's</h3>
+                            <div class="rating text-warning mb-2">⭐⭐⭐⭐⭐</div>
+                            <p>Pizzas deliciosas, alitas y más...</p>
+                            <button class="btn-primary-custom" onclick="verificarSesion()">Ver menú</button>
+                        </div>
+
+                        <div class="restaurant-card">
+                            <img src="../img/wendys.png" alt="Wendy's" />
+                            <h3>Wendy's</h3>
+                            <div class="rating text-warning mb-2">⭐⭐⭐⭐☆</div>
+                            <p>Hamburguesas, papas fritas y refrescos.</p>
+                            <button class="btn-primary-custom" onclick="verificarSesion()">Ver menú</button>
+                        </div>
+
+                        <div class="restaurant-card">
+                            <img src="../img/starbucks.png" alt="Starbucks" />
+                            <h3>Starbucks</h3>
+                            <div class="rating text-warning mb-2">⭐⭐⭐⭐⭐</div>
+                            <p>Cafés, frappés y pasteles deliciosos.</p>
+                            <button class="btn-primary-custom" onclick="verificarSesion()">Ver menú</button>
+                        </div>
+
+                        <div class="restaurant-card">
+                            <img src="../img/Zepped.png" alt="Zepped" />
+                            <h3>Zepped</h3>
+                            <div class="rating text-warning mb-2">⭐⭐⭐⭐⭐</div>
+                            <p>Hot dogs, hamburguesas y más.</p>
+                            <button class="btn-primary-custom" onclick="verificarSesion()">Ver menú</button>
+                        </div>
+                        
+                        <div class="restaurant-card">
+                            <img src="../img/olive_garden.png" alt="Olive Garden" />
+                            <h3>Olive Garden</h3>
+                            <div class="rating text-warning mb-2">⭐⭐⭐⭐☆</div>
+                            <p>Deliciosos platillos italianos.</p>
+                            <button class="btn-primary-custom" onclick="verificarSesion()">Ver menú</button>
+                        </div>
+
+                        <div class="restaurant-card">
+                            <img src="../img/subway.png" alt="Subway" />
+                            <h3>Subway</h3>
+                            <div class="rating text-warning mb-2">⭐⭐⭐⭐⭐</div>
+                            <p>Sandwiches frescos y wraps saludables.</p>
+                            <button class="btn-primary-custom" onclick="verificarSesion()">Ver menú</button>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- COLUMNA DERECHA: Categorías -->
+                <aside class="categories-sidebar">
+                    <h3 class="section-title">Categorías</h3>
+                    <div class="category-list">
+                        <button class="category-btn" data-filter="all">🔥 Todo</button>
+                        <button class="category-btn" data-filter="comida-rapida">🍔 Comida rápida</button>
+                        <button class="category-btn" data-filter="bebidas">🥤 Bebidas</button>
+                        <button class="category-btn" data-filter="postres">🍰 Postres</button>
+                        <button class="category-btn" data-filter="saludable">🥗 Saludable</button>
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Verificación de sesión simulada
+        function verificarSesion() {
+            let isLoggedIn = false; // Cambiar a true para probar el otro flujo
+
+            if (isLoggedIn) {
+                window.location.href = 'detallesPedido.html';
+            } else {
+                Swal.fire({
+                    title: '¡Espera!',
+                    text: 'Debes iniciar sesión para ver el menú y ordenar.',
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d89a2e',
+                    cancelButtonColor: '#6b6363',
+                    confirmButtonText: 'Ir a Iniciar Sesión',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = 'login.html';
+                    }
+                });
+            }
+        }
+    </script>
+    
+</body>
+</html>

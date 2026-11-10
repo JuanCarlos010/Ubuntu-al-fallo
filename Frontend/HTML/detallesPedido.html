@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foodi’n Line - Tu Pedido</title>
+  <link rel="icon" href="../img/MotoAzulLogo.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../CSS/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container d-flex justify-content-between align-items-center">
+      <!-- Logo clickeable que vuelve al index -->
+      <a href="index.html">
+        <img src="../img/Logo_Header_Letras_Blancas.png" class="logo" alt="Logo">
+      </a>
+      
+      <div class="user-actions">
+        <a href="index.html" class="text-white text-decoration-none fw-bold">
+            <i class="bi bi-arrow-left-circle me-1"></i> Volver al Menú
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="content-area">
+      
+      <div class="text-center mb-5">
+          <h2 class="fw-bold text-dark">Tu Pedido en <span style="color: var(--primary-orange);">Papa John's</span></h2>
+          <p class="text-muted">Revisa tus productos antes de ordenar</p>
+      </div>
+
+      <!-- Layout: Productos izquierda, Resumen derecha -->
+      <div class="checkout-layout">
+        
+        <!-- ===== COLUMNA IZQUIERDA: Productos ===== -->
+        <section class="menu">
+          <div class="menu-grid">
+            
+            <!-- Producto 1 -->
+            <div class="menu-card">
+              <img src="../img/pizza_ejemplo.jpg" alt="Pizza">
+              <div class="menu-info">
+                <h4>The Works</h4>
+                <p class="precio-unitario">$ 15.99 c/u</p>
+                <!-- Subtotal dinámico por producto -->
+                <p class="subtotal-item">Subtotal: $ <span id="subtotal1">0.00</span></p>
+              </div>
+              <div class="qty-container">
+                <button class="qty-btn" onclick="decreasing(1)">-</button>
+                <span id="qty1">0</span>
+                <button class="qty-btn" onclick="increasing(1)">+</button>
+              </div>
+            </div>
+
+            <!-- Producto 2 -->
+            <div class="menu-card">
+              <img src="../img/pasta_ejemplo.jpg" alt="Pasta">
+              <div class="menu-info">
+                <h4>Alfredo Delight</h4>
+                <p class="precio-unitario">$ 15.99 c/u</p>
+                <p class="subtotal-item">Subtotal: $ <span id="subtotal2">0.00</span></p>
+              </div>
+              <div class="qty-container">
+                <button class="qty-btn" onclick="decreasing(2)">-</button>
+                <span id="qty2">0</span>
+                <button class="qty-btn" onclick="increasing(2)">+</button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ===== COLUMNA DERECHA: Resumen del Pedido ===== -->
+        <aside class="order-summary">
+          <h5><i class="bi bi-receipt me-2"></i>Resumen del Pedido</h5>
+          
+          <!-- Desglose de productos -->
+          <div class="summary-items" id="summary-items">
+            <p class="text-muted small mb-0">Aún no hay productos seleccionados.</p>
+          </div>
+
+          <!-- Divider -->
+          <hr class="my-3">
+
+          <!-- Total -->
+          <div class="total-row">
+            <span>Total:</span>
+            <span class="total-price">$ <span id="price">0.00</span></span>
+          </div>
+
+          <!-- Botón Confirmar -->
+          <button class="btn-checkout" onclick="confirmarPedido()">
+            <i class="bi bi-check-circle me-2"></i> Confirmar Pedido
+          </button>
+        </aside>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== LÓGICA DE CANTIDADES Y PRECIOS =====
+    let cantidades = {1: 0, 2: 0};
+    const precios = {1: 15.99, 2: 15.99};
+    const nombres = {1: "The Works", 2: "Alfredo Delight"};
+
+    function increasing(id) {
+      cantidades[id]++;
+      document.getElementById('qty' + id).innerText = cantidades[id];
+      actualizarTotal();
+    }
+
+    function decreasing(id) {
+      if (cantidades[id] > 0) {
+        cantidades[id]--;
+        document.getElementById('qty' + id).innerText = cantidades[id];
+        actualizarTotal();
+      }
+    }
+
+    function actualizarTotal() {
+      let total = 0;
+      
+      // Actualizar subtotales individuales y resumen
+      for (let id in cantidades) {
+        let subtotal = cantidades[id] * precios[id];
+        total += subtotal;
+        
+        // Actualizar subtotal de cada producto (izquierda)
+        let subtotalEl = document.getElementById('subtotal' + id);
+        if (subtotalEl) subtotalEl.innerText = subtotal.toFixed(2);
+      }
+      
+      // Actualizar total general (derecha)
+      document.getElementById('price').innerText = total.toFixed(2);
+
+      // Actualizar desglose en el resumen
+      actualizarResumen();
+    }
+
+    function actualizarResumen() {
+      let contenedor = document.getElementById('summary-items');
+      let itemsHTML = '';
+      let hayProductos = false;
+
+      for (let id in cantidades) {
+        if (cantidades[id] > 0) {
+          hayProductos = true;
+          let subtotal = (cantidades[id] * precios[id]).toFixed(2);
+          itemsHTML += `
+            <div class="summary-item">
+              <span><strong>${cantidades[id]}x</strong> ${nombres[id]}</span>
+              <span>$${subtotal}</span>
+            </div>
+          `;
+        }
+      }
+
+      if (hayProductos) {
+        contenedor.innerHTML = itemsHTML;
+      } else {
+        contenedor.innerHTML = '<p class="text-muted small mb-0">Aún no hay productos seleccionados.</p>';
+      }
+    }
+
+    // ===== CONFIRMAR PEDIDO =====
+    function confirmarPedido() {
+      let total = document.getElementById('price').innerText;
+      
+      if (total == "0.00") {
+        Swal.fire('Carrito vacío', 'Agrega algunos productos antes de confirmar.', 'warning');
+        return;
+      }
+
+      Swal.fire({
+        title: '¡Pedido Realizado!',
+        text: `Tu pedido por $${total} ha sido enviado a la cocina.`,
+        icon: 'success',
+        confirmButtonColor: '#4CAF50',
+        confirmButtonText: 'Entendido',
+        allowOutsideClick: false
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // 🔥 GUARDAR NOTIFICACIÓN PARA EL INDEX
+          let notificaciones = JSON.parse(localStorage.getItem('notificaciones')) || [];
+          let nuevaNotif = {
+            mensaje: `Pedido confirmado por $${total} en Papa John's`,
+            fecha: new Date().toLocaleString('es-SV'),
+            leida: false
+          };
+          notificaciones.unshift(nuevaNotif);
+          localStorage.setItem('notificaciones', JSON.stringify(notificaciones));
+
+          window.location.href = 'index.html';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
