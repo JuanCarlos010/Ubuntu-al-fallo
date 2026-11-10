@@ -14,26 +14,35 @@
 <body>
     <div class="auth-wrapper">
         <div class="auth-box">
-            <img src="../img/MotoAzulLogo.png" alt="Foodi'n Line">
-            <h2 class="mb-2 text-dark fw-bold">Bienvenido</h2>
-            <p class="text-muted mb-4">Inicia sesión para continuar</p>
-
-            <div class="input-group mb-3">
-                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                <input type="email" id="emailInput" class="form-control" placeholder="Correo electrónico">
+            <div class="text-center mb-4">
+                <img src="../img/MotoAzulLogo.png" alt="Foodi'n Line" style="width: 80px; margin-bottom: 15px;">
+                <h2 class="fw-bold text-dark">Bienvenido de nuevo</h2>
+                <p class="text-muted">Ingresa tus credenciales para continuar</p>
             </div>
 
             <div class="input-group mb-4">
-                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
+                <input type="email" id="emailInput" class="form-control" placeholder="Correo electrónico">
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
                 <input type="password" id="passwordInput" class="form-control" placeholder="Contraseña">
             </div>
 
-            <!-- Botón que simula el inicio de sesión -->
-            <button class="btn btn-primary-custom w-100 mb-3" onclick="simularLogin()">
-                <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                    <label class="form-check-label text-muted small" for="rememberMe">Recordarme</label>
+                </div>
+                <a href="#" class="text-decoration-none small fw-bold" style="color: var(--primary-orange);">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <button class="btn btn-primary-custom w-100 mb-4" onclick="simularLogin()">
+                <i class="bi bi-box-arrow-in-right me-2"></i> Iniciar Sesión
             </button>
 
-            <p class="text-muted">
+            <p class="text-center text-muted m-0">
                 ¿No tienes cuenta? <a href="registro.html" class="text-decoration-none fw-bold" style="color: var(--primary-orange);">Regístrate aquí</a>
             </p>
         </div>
@@ -45,16 +54,15 @@
             let pass = document.getElementById('passwordInput').value;
 
             if(!email || !pass) {
-                Swal.fire('Error', 'Por favor, llena todos los campos.', 'error');
+                Swal.fire('Campos vacíos', 'Por favor, llena todos los campos.', 'warning');
                 return;
             }
 
-            // Simulamos que el login es exitoso
             Swal.fire({
                 title: '¡Bienvenido!',
-                text: 'Inicio de sesión exitoso. Redirigiendo a tu pedido...',
+                text: 'Inicio de sesión exitoso. Redirigiendo...',
                 icon: 'success',
-                timer: 2000,
+                timer: 1500,
                 showConfirmButton: false
             }).then(() => {
                 window.location.href = 'detallesPedido.html';

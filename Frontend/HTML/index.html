@@ -14,22 +14,54 @@
 <body>
     <header class="navbar">
         <div class="container d-flex justify-content-between align-items-center">
-            <img src="../img/Logo_Header_Letras_Blancas.png" alt="Logo" class="logo" />
+            <!-- Logo -->
+            <a href="index.html">
+                <img src="../img/Logo_Header_Letras_Blancas.png" alt="Logo" class="logo" />
+            </a>
             
+            <!-- Buscador -->
             <div class="search-bar">
-                <input type="text" placeholder="Buscar restaurantes o platos" />
+                <input type="text" placeholder="Buscar restaurantes, platos o categorías..." />
                 <button><i class="bi bi-search"></i></button>
             </div>
 
+            <!-- Acciones de Usuario -->
             <div class="user-actions">
+                
+                <!-- Notificaciones -->
                 <div class="action-item">
-                    <i class="bi bi-bell-fill"></i>
+                    <button class="icon-btn" onclick="toggleMenu('notif-dropdown', this)">
+                        <i class="bi bi-bell-fill"></i>
+                    </button>
+                    <div class="dropdown-menu" id="notif-dropdown">
+                        <div class="dropdown-header">
+                            <h6>Notificaciones</h6>
+                        </div>
+                        <a href="#" class="dropdown-item-custom"><i class="bi bi-check-circle-fill text-success"></i> Pedido entregado</a>
+                        <a href="#" class="dropdown-item-custom"><i class="bi bi-tag-fill text-warning"></i> 20% de descuento hoy</a>
+                    </div>
                 </div>
+
+                <!-- Perfil (Nuevo botón bonito) -->
                 <div class="action-item">
-                    <i class="bi bi-person-circle"></i>
-                    <div class="dropdown-menu">
-                        <a href="perfil.html">Mi Perfil</a>
-                        <a href="login.html">Iniciar Sesión / Cerrar Sesión</a>
+                    <div class="profile-btn" onclick="toggleMenu('profile-dropdown', this)">
+                        <div class="avatar-circle">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <span>Mi Cuenta</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                    
+                    <div class="dropdown-menu" id="profile-dropdown">
+                        <div class="dropdown-header">
+                            <h6>¡Hola, Juan!</h6>
+                            <small>juan@ejemplo.com</small>
+                        </div>
+                        <a href="perfil.html" class="dropdown-item-custom"><i class="bi bi-person-circle"></i> Mi Perfil</a>
+                        <a href="#" class="dropdown-item-custom"><i class="bi bi-bag-check"></i> Mis Pedidos</a>
+                        <a href="#" class="dropdown-item-custom"><i class="bi bi-geo-alt"></i> Direcciones</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login.html" class="dropdown-item-custom text-danger"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
                     </div>
                 </div>
             </div>
@@ -39,60 +71,106 @@
     <div class="main">
         <div class="content-area">
             
-            <!-- Layout de dos columnas: Izquierda Restaurantes, Derecha Categorías -->
             <div class="layout-index">
-                
                 <!-- COLUMNA IZQUIERDA: Restaurantes -->
                 <section class="restaurants">
-                    <h2 class="section-title mb-4">Restaurantes</h2>
+                    <h2 class="section-title">Restaurantes Destacados</h2>
                     <div class="restaurant-grid">
                         
+                        <!-- Card 1 -->
                         <div class="restaurant-card">
-                            <img src="../img/papa_johns.png" alt="Papa John's" />
-                            <h3>Papa John's</h3>
-                            <div class="rating text-warning mb-2">⭐⭐⭐⭐⭐</div>
-                            <p>Pizzas deliciosas, alitas y más...</p>
-                            <button class="btn-primary-custom" onclick="verificarSesion()">Ver menú</button>
+                            <div class="position-relative">
+                                <img src="../img/papa_johns.png" alt="Papa John's" />
+                                <span class="badge-time"><i class="bi bi-clock"></i> 25-35 min</span>
+                            </div>
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h3>Papa John's</h3>
+                                    <span class="badge-rating"><i class="bi bi-star-fill"></i> 4.8</span>
+                                </div>
+                                <p class="text-muted small mb-3">Pizzas, alitas y complementos</p>
+                                <button class="btn-primary-custom" onclick="verificarSesion()">Ver Menú</button>
+                            </div>
                         </div>
 
+                        <!-- Card 2 -->
                         <div class="restaurant-card">
-                            <img src="../img/wendys.png" alt="Wendy's" />
-                            <h3>Wendy's</h3>
-                            <div class="rating text-warning mb-2">⭐⭐⭐⭐☆</div>
-                            <p>Hamburguesas, papas fritas y refrescos.</p>
-                            <button class="btn-primary-custom" onclick="verificarSesion()">Ver menú</button>
+                            <div class="position-relative">
+                                <img src="../img/wendys.png" alt="Wendy's" />
+                                <span class="badge-time"><i class="bi bi-clock"></i> 15-25 min</span>
+                            </div>
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h3>Wendy's</h3>
+                                    <span class="badge-rating"><i class="bi bi-star-fill"></i> 4.5</span>
+                                </div>
+                                <p class="text-muted small mb-3">Hamburguesas y papas fritas</p>
+                                <button class="btn-primary-custom" onclick="verificarSesion()">Ver Menú</button>
+                            </div>
                         </div>
 
+                        <!-- Card 3 -->
                         <div class="restaurant-card">
-                            <img src="../img/starbucks.png" alt="Starbucks" />
-                            <h3>Starbucks</h3>
-                            <div class="rating text-warning mb-2">⭐⭐⭐⭐⭐</div>
-                            <p>Cafés, frappés y pasteles deliciosos.</p>
-                            <button class="btn-primary-custom" onclick="verificarSesion()">Ver menú</button>
+                            <div class="position-relative">
+                                <img src="../img/starbucks.png" alt="Starbucks" />
+                                <span class="badge-time"><i class="bi bi-clock"></i> 10-20 min</span>
+                            </div>
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h3>Starbucks</h3>
+                                    <span class="badge-rating"><i class="bi bi-star-fill"></i> 4.9</span>
+                                </div>
+                                <p class="text-muted small mb-3">Cafés, frappés y pasteles</p>
+                                <button class="btn-primary-custom" onclick="verificarSesion()">Ver Menú</button>
+                            </div>
                         </div>
 
+                        <!-- Card 4 -->
                         <div class="restaurant-card">
-                            <img src="../img/Zepped.png" alt="Zepped" />
-                            <h3>Zepped</h3>
-                            <div class="rating text-warning mb-2">⭐⭐⭐⭐⭐</div>
-                            <p>Hot dogs, hamburguesas y más.</p>
-                            <button class="btn-primary-custom" onclick="verificarSesion()">Ver menú</button>
-                        </div>
-                        
-                        <div class="restaurant-card">
-                            <img src="../img/olive_garden.png" alt="Olive Garden" />
-                            <h3>Olive Garden</h3>
-                            <div class="rating text-warning mb-2">⭐⭐⭐⭐☆</div>
-                            <p>Deliciosos platillos italianos.</p>
-                            <button class="btn-primary-custom" onclick="verificarSesion()">Ver menú</button>
+                            <div class="position-relative">
+                                <img src="../img/Zepped.png" alt="Zepped" />
+                                <span class="badge-time"><i class="bi bi-clock"></i> 20-30 min</span>
+                            </div>
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h3>Zepped</h3>
+                                    <span class="badge-rating"><i class="bi bi-star-fill"></i> 4.7</span>
+                                </div>
+                                <p class="text-muted small mb-3">Hot dogs y hamburguesas</p>
+                                <button class="btn-primary-custom" onclick="verificarSesion()">Ver Menú</button>
+                            </div>
                         </div>
 
+                        <!-- Card 5 -->
                         <div class="restaurant-card">
-                            <img src="../img/subway.png" alt="Subway" />
-                            <h3>Subway</h3>
-                            <div class="rating text-warning mb-2">⭐⭐⭐⭐⭐</div>
-                            <p>Sandwiches frescos y wraps saludables.</p>
-                            <button class="btn-primary-custom" onclick="verificarSesion()">Ver menú</button>
+                            <div class="position-relative">
+                                <img src="../img/olive_garden.png" alt="Olive Garden" />
+                                <span class="badge-time"><i class="bi bi-clock"></i> 30-45 min</span>
+                            </div>
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h3>Olive Garden</h3>
+                                    <span class="badge-rating"><i class="bi bi-star-fill"></i> 4.6</span>
+                                </div>
+                                <p class="text-muted small mb-3">Deliciosos platillos italianos</p>
+                                <button class="btn-primary-custom" onclick="verificarSesion()">Ver Menú</button>
+                            </div>
+                        </div>
+
+                        <!-- Card 6 -->
+                        <div class="restaurant-card">
+                            <div class="position-relative">
+                                <img src="../img/subway.png" alt="Subway" />
+                                <span class="badge-time"><i class="bi bi-clock"></i> 15-20 min</span>
+                            </div>
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h3>Subway</h3>
+                                    <span class="badge-rating"><i class="bi bi-star-fill"></i> 4.4</span>
+                                </div>
+                                <p class="text-muted small mb-3">Sandwiches frescos y wraps</p>
+                                <button class="btn-primary-custom" onclick="verificarSesion()">Ver Menú</button>
+                            </div>
                         </div>
 
                     </div>
@@ -100,24 +178,50 @@
 
                 <!-- COLUMNA DERECHA: Categorías -->
                 <aside class="categories-sidebar">
-                    <h3 class="section-title">Categorías</h3>
+                    <h3 class="section-title" style="font-size: 1.4rem;">Categorías</h3>
                     <div class="category-list">
-                        <button class="category-btn" data-filter="all">🔥 Todo</button>
-                        <button class="category-btn" data-filter="comida-rapida">🍔 Comida rápida</button>
-                        <button class="category-btn" data-filter="bebidas">🥤 Bebidas</button>
-                        <button class="category-btn" data-filter="postres">🍰 Postres</button>
-                        <button class="category-btn" data-filter="saludable">🥗 Saludable</button>
+                        <button class="category-btn active" data-filter="all"><i class="bi bi-fire"></i> Todo</button>
+                        <button class="category-btn" data-filter="comida-rapida"><i class="bi bi-burger"></i> Comida rápida</button>
+                        <button class="category-btn" data-filter="bebidas"><i class="bi bi-cup-straw"></i> Bebidas</button>
+                        <button class="category-btn" data-filter="postres"><i class="bi bi-cake2"></i> Postres</button>
+                        <button class="category-btn" data-filter="saludable"><i class="bi bi-egg-fried"></i> Saludable</button>
                     </div>
                 </aside>
-
             </div>
         </div>
     </div>
 
     <script>
-        // Verificación de sesión simulada
+        // ===== LÓGICA DE MENÚS DESPLEGABLES (CLICK) =====
+        function toggleMenu(menuId, triggerElement) {
+            // Cerrar todos los menús abiertos
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                if(menu.id !== menuId) menu.classList.remove('show');
+            });
+            // Quitar clase activa de otros botones
+            document.querySelectorAll('.profile-btn').forEach(btn => btn.classList.remove('active'));
+
+            // Alternar el menú clickeado
+            const menu = document.getElementById(menuId);
+            menu.classList.toggle('show');
+
+            // Si es el menú de perfil, activar el botón para el efecto de flecha
+            if(menuId === 'profile-dropdown') {
+                triggerElement.classList.toggle('active');
+            }
+        }
+
+        // Cerrar menús al hacer clic fuera
+        window.addEventListener('click', function(e) {
+            if (!e.target.closest('.action-item')) {
+                document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.remove('show'));
+                document.querySelectorAll('.profile-btn').forEach(btn => btn.classList.remove('active'));
+            }
+        });
+
+        // ===== VERIFICACIÓN DE SESIÓN =====
         function verificarSesion() {
-            let isLoggedIn = false; // Cambiar a true para probar el otro flujo
+            let isLoggedIn = false; // Cambiar a true para probar el flujo directo
 
             if (isLoggedIn) {
                 window.location.href = 'detallesPedido.html';
@@ -138,7 +242,14 @@
                 });
             }
         }
+
+        // ===== FILTRO DE CATEGORÍAS (VISUAL) =====
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
     </script>
-    
 </body>
 </html>
