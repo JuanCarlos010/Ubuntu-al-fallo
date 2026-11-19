@@ -1,0 +1,30 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: foodin_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: America/El_Salvador
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports:
+      # Solo accesible desde la propia VM. Docker ignora las reglas de UFW cuando
+      # publica un puerto en 0.0.0.0, asi que "3306:3306" quedaria abierto a la red.
+      - "127.0.0.1:3306:3306"
+    volumes:
+      # Los datos sobreviven aunque borres o recrees el contenedor
+      - foodin_data:/var/lib/mysql
+      # Se ejecuta automaticamente solo la primera vez (volumen vacio)
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  foodin_data:
