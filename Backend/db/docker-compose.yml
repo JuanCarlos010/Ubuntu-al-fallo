@@ -13,7 +13,7 @@ services:
     ports:
       # Solo accesible desde la propia VM. Docker ignora las reglas de UFW cuando
       # publica un puerto en 0.0.0.0, asi que "3306:3306" quedaria abierto a la red.
-      - "127.0.0.1:3306:3306"
+      - "127.0.0.1:3307:3306"
     volumes:
       # Los datos sobreviven aunque borres o recrees el contenedor
       - foodin_data:/var/lib/mysql
