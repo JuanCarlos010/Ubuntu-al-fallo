@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
   <link rel="stylesheet" href="../CSS/style.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="../../BackEnd/menu/dynamic.js"></script>
 </head>
 <body>
   <!-- Header con Glassmorphism -->
@@ -44,45 +45,82 @@
       <!-- Layout: Productos izquierda, Resumen derecha -->
       <div class="checkout-layout">
         
-        <!-- ===== COLUMNA IZQUIERDA: Productos ===== -->
+        <!-- ===== COLUMNA IZQUIERDA: Productos (estructura de prototipo.html) ===== -->
         <section class="menu">
           <h3 class="section-title">Menú</h3>
           
           <div class="menu-grid">
-            
-            <!-- Producto 1 -->
+
             <div class="menu-card">
-              <img src="../img/pizza_ejemplo.jpg" alt="Pizza">
-              <div class="menu-info">
-                <h4>The Works</h4>
-                <p class="precio-unitario">Pizza grande con pepperoni, salchicha, champiñones...</p>
-                <p class="subtotal-item">$ <span id="subtotal1">15.99</span></p>
-              </div>
-              <div class="qty-container">
-                <button class="qty-btn" onclick="decreasing(1)">-</button>
-                <span id="qty1">1</span>
-                <button class="qty-btn" onclick="increasing(1)">+</button>
-              </div>
+              <ul class="list-group list-group-horizontal">
+
+                <!-- Imagen del producto -->
+                <li class="list-group-item"><img alt="imagen1" id="img1"></li>
+
+                <!-- Nombre del item -->
+                <li class="list-group-item" id="itemName1">The works</li>
+
+                <!-- Precio -->
+                <li class="list-group-item" id="itemPrice1">$ 15.99</li>
+
+                <!-- Controles para sumar, restar cantidad -->
+                <li class="list-group-item">
+                  <div class="qty-container">
+                    <!-- Boton para disminuir cantidad -->
+                    <button class="qty-btn" id="minus" onclick="decreasing(1)">-</button>
+
+                    <!-- Cantidad actual -->
+                    <span id="qty1">0</span>
+
+                    <!-- Boton para aumentar cantidad -->
+                    <button class="qty-btn" id="plus" onclick="increasing(1)">+</button>
+                  </div>
+                </li>
+
+                <!-- Subtotal del item -->
+                <li class="list-group-item" id="subtotal1">subtotal: $ </li>
+              </ul>
             </div>
 
-            <!-- Producto 2 -->
             <div class="menu-card">
-              <img src="../img/pasta_ejemplo.jpg" alt="Pasta">
-              <div class="menu-info">
-                <h4>Alfredo Delight</h4>
-                <p class="precio-unitario">Pasta con salsa alfredo cremosa y pollo grillado.</p>
-                <p class="subtotal-item">$ <span id="subtotal2">12.50</span></p>
-              </div>
-              <div class="qty-container">
-                <button class="qty-btn" onclick="decreasing(2)">-</button>
-                <span id="qty2">1</span>
-                <button class="qty-btn" onclick="increasing(2)">+</button>
-              </div>
+              <ul class="list-group list-group-horizontal">
+                <li class="list-group-item"><img alt="imagen2" id="img2"></li>
+                <li class="list-group-item" id="itemName2">Alfredo Delight</li>
+                <li class="list-group-item" id="itemPrice2">$ 15.99</li>
+
+                <li class="list-group-item">
+                  <div class="qty-container">
+                    <button class="qty-btn" id="minus" onclick="decreasing(2)">-</button>
+                    <span id="qty2">0</span>
+                    <button class="qty-btn" id="plus" onclick="increasing(2)">+</button>
+                  </div>
+                </li>
+
+                <li class="list-group-item" id="subtotal2">subtotal: $ </li>
+              </ul>
+            </div>
+
+            <div class="menu-card">
+              <ul class="list-group list-group-horizontal">
+                <li class="list-group-item"><img alt="imagen3" id="img3"></li>
+                <li class="list-group-item" id="itemName3">Carnivora</li>
+                <li class="list-group-item" id="itemPrice3">$ 15.99</li>
+
+                <li class="list-group-item">
+                  <div class="qty-container">
+                    <button class="qty-btn" id="minus" onclick="decreasing(3)">-</button>
+                    <span id="qty3">0</span>
+                    <button class="qty-btn" id="plus" onclick="increasing(3)">+</button>
+                  </div>
+                </li>
+
+                <li class="list-group-item" id="subtotal3">subtotal: $ </li>
+              </ul>
             </div>
 
           </div>
 
-          <!-- ===== NUEVA SECCIÓN: COMENTARIOS ===== -->
+          <!-- ===== SECCIÓN: COMENTARIOS ===== -->
           <div class="review-section">
               <h4 class="mb-3"><i class="bi bi-chat-text-fill text-warning me-2"></i>Instrucciones especiales</h4>
               <p class="text-muted small mb-3">¿Alguna alergia o preferencia? Dínoslo aquí.</p>
@@ -118,111 +156,5 @@
       </div>
     </div>
   </div>
-
-  <script>
-    // ===== LÓGICA DE CANTIDADES Y PRECIOS =====
-    // Inicializamos con 1 producto para que se vea mejor la vista
-    let cantidades = {1: 1, 2: 1}; 
-    const precios = {1: 15.99, 2: 12.50};
-    const nombres = {1: "The Works", 2: "Alfredo Delight"};
-
-    // Función para inicializar la vista
-    function init() {
-        document.getElementById('qty1').innerText = cantidades[1];
-        document.getElementById('qty2').innerText = cantidades[2];
-        actualizarTotal();
-    }
-
-    function increasing(id) {
-      cantidades[id]++;
-      document.getElementById('qty' + id).innerText = cantidades[id];
-      actualizarTotal();
-    }
-
-    function decreasing(id) {
-      if (cantidades[id] > 0) {
-        cantidades[id]--;
-        document.getElementById('qty' + id).innerText = cantidades[id];
-        actualizarTotal();
-      }
-    }
-
-    function actualizarTotal() {
-      let total = 0;
-      
-      for (let id in cantidades) {
-        let subtotal = cantidades[id] * precios[id];
-        total += subtotal;
-        
-        // Actualizar subtotal visual en la card (opcional)
-        let subtotalEl = document.getElementById('subtotal' + id);
-        if (subtotalEl) subtotalEl.innerText = (cantidades[id] * precios[id]).toFixed(2);
-      }
-      
-      document.getElementById('price').innerText = total.toFixed(2);
-      actualizarResumen();
-    }
-
-    function actualizarResumen() {
-      let contenedor = document.getElementById('summary-items');
-      let itemsHTML = '';
-      let hayProductos = false;
-
-      for (let id in cantidades) {
-        if (cantidades[id] > 0) {
-          hayProductos = true;
-          let subtotal = (cantidades[id] * precios[id]).toFixed(2);
-          itemsHTML += `
-            <div class="summary-item">
-              <span><span class="badge bg-warning text-dark me-2">${cantidades[id]}</span> ${nombres[id]}</span>
-              <span>$${subtotal}</span>
-            </div>
-          `;
-        }
-      }
-
-      if (hayProductos) {
-        contenedor.innerHTML = itemsHTML;
-      } else {
-        contenedor.innerHTML = '<p class="text-muted small text-center my-3">Tu carrito está vacío</p>';
-      }
-    }
-
-    // ===== CONFIRMAR PEDIDO =====
-    function confirmarPedido() {
-      let total = document.getElementById('price').innerText;
-      
-      if (total == "0.00") {
-        Swal.fire('Carrito vacío', 'Agrega algunos productos antes de confirmar.', 'warning');
-        return;
-      }
-
-      Swal.fire({
-        title: '¡Pedido Realizado!',
-        text: `Tu pedido por $${total} ha sido enviado a la cocina.`,
-        icon: 'success',
-        confirmButtonColor: '#4CAF50',
-        confirmButtonText: 'Entendido',
-        allowOutsideClick: false
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // Guardar notificación (Simulado)
-          let notificaciones = JSON.parse(localStorage.getItem('notificaciones')) || [];
-          let nuevaNotif = {
-            mensaje: `Pedido confirmado por $${total} en Papa John's`,
-            fecha: new Date().toLocaleString('es-SV'),
-            leida: false
-          };
-          notificaciones.unshift(nuevaNotif);
-          localStorage.setItem('notificaciones', JSON.stringify(notificaciones));
-
-          window.location.href = 'index.html';
-        }
-      });
-    }
-    
-    // Ejecutar init al cargar
-    document.addEventListener('DOMContentLoaded', init);
-  </script>
 </body>
 </html>

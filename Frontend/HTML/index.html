@@ -9,7 +9,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="../CSS/style.css" />
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="/BackEnd/MainMenu/matrixRestaurant.js" defer></script>
 </head>
 <body>
     <header class="navbar">
@@ -19,9 +21,9 @@
                 <img src="../img/Logo_Header_Letras_Blancas.png" alt="Logo" class="logo" />
             </a>
             
-            <!-- Buscador -->
+            <!-- Buscador (con ID de restaurantes.html) -->
             <div class="search-bar">
-                <input type="text" placeholder="Buscar restaurantes, platos o categorías..." />
+                <input type="text" id="buscarRestaurante" placeholder="Buscar restaurantes, platos o categorías..." />
                 <button><i class="bi bi-search"></i></button>
             </div>
 
@@ -42,7 +44,7 @@
                     </div>
                 </div>
 
-                <!-- Perfil (Nuevo botón bonito) -->
+                <!-- Perfil -->
                 <div class="action-item">
                     <div class="profile-btn" onclick="toggleMenu('profile-dropdown', this)">
                         <div class="avatar-circle">
@@ -57,7 +59,7 @@
                             <h6>¡Hola, Juan!</h6>
                             <small>juan@ejemplo.com</small>
                         </div>
-                        <a href="perfil.html" class="dropdown-item-custom"><i class="bi bi-person-circle"></i> Mi Perfil</a>
+                        <a href="Perfil.html" class="dropdown-item-custom"><i class="bi bi-person-circle"></i> Mi Perfil</a>
                         <a href="#" class="dropdown-item-custom"><i class="bi bi-bag-check"></i> Mis Pedidos</a>
                         <a href="#" class="dropdown-item-custom"><i class="bi bi-geo-alt"></i> Direcciones</a>
                         <div class="dropdown-divider"></div>
@@ -77,8 +79,8 @@
                     <h2 class="section-title">Restaurantes Destacados</h2>
                     <div class="restaurant-grid">
                         
-                        <!-- Card 1 -->
-                        <div class="restaurant-card">
+                        <!-- Card 1: Papa John's -->
+                        <div class="restaurant-card" data-category="comida-rapida" id="Papa Johns">
                             <div class="position-relative">
                                 <img src="../img/papa_johns.png" alt="Papa John's" />
                                 <span class="badge-time"><i class="bi bi-clock"></i> 25-35 min</span>
@@ -88,13 +90,13 @@
                                     <h3>Papa John's</h3>
                                     <span class="badge-rating"><i class="bi bi-star-fill"></i> 4.8</span>
                                 </div>
-                                <p class="text-muted small mb-3">Pizzas, alitas y complementos</p>
-                                <button class="btn-primary-custom" onclick="verificarSesion()">Ver Menú</button>
+                                <p class="text-muted small mb-3">Pizzas deliciosas, alitas y más...</p>
+                                <button class="btn-primary-custom" onclick="menuView(this)">Ver Menú</button>
                             </div>
                         </div>
 
-                        <!-- Card 2 -->
-                        <div class="restaurant-card">
+                        <!-- Card 2: Wendy's -->
+                        <div class="restaurant-card" data-category="comida-rapida" id="Wendys">
                             <div class="position-relative">
                                 <img src="../img/wendys.png" alt="Wendy's" />
                                 <span class="badge-time"><i class="bi bi-clock"></i> 15-25 min</span>
@@ -104,29 +106,13 @@
                                     <h3>Wendy's</h3>
                                     <span class="badge-rating"><i class="bi bi-star-fill"></i> 4.5</span>
                                 </div>
-                                <p class="text-muted small mb-3">Hamburguesas y papas fritas</p>
-                                <button class="btn-primary-custom" onclick="verificarSesion()">Ver Menú</button>
+                                <p class="text-muted small mb-3">Hamburguesas, papas fritas y refrescos.</p>
+                                <button class="btn-primary-custom" onclick="menuView(this)">Ver Menú</button>
                             </div>
                         </div>
 
-                        <!-- Card 3 -->
-                        <div class="restaurant-card">
-                            <div class="position-relative">
-                                <img src="../img/starbucks.png" alt="Starbucks" />
-                                <span class="badge-time"><i class="bi bi-clock"></i> 10-20 min</span>
-                            </div>
-                            <div class="p-3">
-                                <div class="d-flex justify-content-between align-items-center mb-1">
-                                    <h3>Starbucks</h3>
-                                    <span class="badge-rating"><i class="bi bi-star-fill"></i> 4.9</span>
-                                </div>
-                                <p class="text-muted small mb-3">Cafés, frappés y pasteles</p>
-                                <button class="btn-primary-custom" onclick="verificarSesion()">Ver Menú</button>
-                            </div>
-                        </div>
-
-                        <!-- Card 4 -->
-                        <div class="restaurant-card">
+                        <!-- Card 3: Zepped -->
+                        <div class="restaurant-card" data-category="comida-rapida" id="Zepped">
                             <div class="position-relative">
                                 <img src="../img/Zepped.png" alt="Zepped" />
                                 <span class="badge-time"><i class="bi bi-clock"></i> 20-30 min</span>
@@ -136,13 +122,93 @@
                                     <h3>Zepped</h3>
                                     <span class="badge-rating"><i class="bi bi-star-fill"></i> 4.7</span>
                                 </div>
-                                <p class="text-muted small mb-3">Hot dogs y hamburguesas</p>
-                                <button class="btn-primary-custom" onclick="verificarSesion()">Ver Menú</button>
+                                <p class="text-muted small mb-3">Deliciosos hot dogs, hamburguesas y más</p>
+                                <button class="btn-primary-custom" onclick="menuView(this)">Ver Menú</button>
                             </div>
                         </div>
 
-                        <!-- Card 5 -->
-                        <div class="restaurant-card">
+                        <!-- Card 4: San Martín -->
+                        <div class="restaurant-card" data-category="postres" id="San Martin">
+                            <div class="position-relative">
+                                <img src="../img/san_martin.png" alt="San Martín" />
+                                <span class="badge-time"><i class="bi bi-clock"></i> 20-30 min</span>
+                            </div>
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h3>San Martín</h3>
+                                    <span class="badge-rating"><i class="bi bi-star-fill"></i> 4.7</span>
+                                </div>
+                                <p class="text-muted small mb-3">Comida gourmet, carnes y ensaladas.</p>
+                                <button class="btn-primary-custom" onclick="menuView(this)">Ver Menú</button>
+                            </div>
+                        </div>
+
+                        <!-- Card 5: Starbucks -->
+                        <div class="restaurant-card" data-category="bebidas" id="Starbucks">
+                            <div class="position-relative">
+                                <img src="../img/starbucks.png" alt="Starbucks" />
+                                <span class="badge-time"><i class="bi bi-clock"></i> 10-20 min</span>
+                            </div>
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h3>Starbucks</h3>
+                                    <span class="badge-rating"><i class="bi bi-star-fill"></i> 4.9</span>
+                                </div>
+                                <p class="text-muted small mb-3">Cafés, frappés y pasteles deliciosos.</p>
+                                <button class="btn-primary-custom" onclick="menuView(this)">Ver Menú</button>
+                            </div>
+                        </div>
+
+                        <!-- Card 6: Bobaluba -->
+                        <div class="restaurant-card" data-category="bebidas" id="Bobaluba">
+                            <div class="position-relative">
+                                <img src="../img/bobaluba.png" alt="Bobaluba" />
+                                <span class="badge-time"><i class="bi bi-clock"></i> 15-25 min</span>
+                            </div>
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h3>Bobaluba</h3>
+                                    <span class="badge-rating"><i class="bi bi-star-fill"></i> 4.3</span>
+                                </div>
+                                <p class="text-muted small mb-3">Deliciosas bebidas de taro, matcha y más</p>
+                                <button class="btn-primary-custom" onclick="menuView(this)">Ver Menú</button>
+                            </div>
+                        </div>
+
+                        <!-- Card 7: Go Green -->
+                        <div class="restaurant-card" data-category="saludable" id="Go Green">
+                            <div class="position-relative">
+                                <img src="../img/go_green.png" alt="Go Green" />
+                                <span class="badge-time"><i class="bi bi-clock"></i> 15-25 min</span>
+                            </div>
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h3>Go Green</h3>
+                                    <span class="badge-rating"><i class="bi bi-star-fill"></i> 4.8</span>
+                                </div>
+                                <p class="text-muted small mb-3">Opciones saludables, ensaladas y jugos.</p>
+                                <button class="btn-primary-custom" onclick="menuView(this)">Ver Menú</button>
+                            </div>
+                        </div>
+
+                        <!-- Card 8: Ban Ban -->
+                        <div class="restaurant-card" data-category="postres" id="Ban Ban">
+                            <div class="position-relative">
+                                <img src="../img/ban_ban.png" alt="Ban Ban" />
+                                <span class="badge-time"><i class="bi bi-clock"></i> 20-30 min</span>
+                            </div>
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h3>Ban Ban</h3>
+                                    <span class="badge-rating"><i class="bi bi-star-fill"></i> 4.4</span>
+                                </div>
+                                <p class="text-muted small mb-3">Comida rápida asiática y noodles.</p>
+                                <button class="btn-primary-custom" onclick="menuView(this)">Ver Menú</button>
+                            </div>
+                        </div>
+
+                        <!-- Card 9: Olive Garden -->
+                        <div class="restaurant-card" data-category="saludable" id="Olive Garden">
                             <div class="position-relative">
                                 <img src="../img/olive_garden.png" alt="Olive Garden" />
                                 <span class="badge-time"><i class="bi bi-clock"></i> 30-45 min</span>
@@ -152,13 +218,13 @@
                                     <h3>Olive Garden</h3>
                                     <span class="badge-rating"><i class="bi bi-star-fill"></i> 4.6</span>
                                 </div>
-                                <p class="text-muted small mb-3">Deliciosos platillos italianos</p>
-                                <button class="btn-primary-custom" onclick="verificarSesion()">Ver Menú</button>
+                                <p class="text-muted small mb-3">Deliciosos platillos italianos, bebidas y más.</p>
+                                <button class="btn-primary-custom" onclick="menuView(this)">Ver Menú</button>
                             </div>
                         </div>
 
-                        <!-- Card 6 -->
-                        <div class="restaurant-card">
+                        <!-- Card 10: Subway -->
+                        <div class="restaurant-card" data-category="saludable" id="Subway">
                             <div class="position-relative">
                                 <img src="../img/subway.png" alt="Subway" />
                                 <span class="badge-time"><i class="bi bi-clock"></i> 15-20 min</span>
@@ -168,88 +234,32 @@
                                     <h3>Subway</h3>
                                     <span class="badge-rating"><i class="bi bi-star-fill"></i> 4.4</span>
                                 </div>
-                                <p class="text-muted small mb-3">Sandwiches frescos y wraps</p>
-                                <button class="btn-primary-custom" onclick="verificarSesion()">Ver Menú</button>
+                                <p class="text-muted small mb-3">Sandwiches frescos y wraps saludables.</p>
+                                <button class="btn-primary-custom" onclick="menuView(this)">Ver Menú</button>
                             </div>
                         </div>
 
                     </div>
+
+                    <!-- Mensaje de error para búsqueda/filtros -->
+                    <p id="mensaje-no-encontrado" class="no-encontrado" style="display: none">
+                        Restaurante no encontrado
+                    </p>
                 </section>
 
                 <!-- COLUMNA DERECHA: Categorías -->
                 <aside class="categories-sidebar">
                     <h3 class="section-title" style="font-size: 1.4rem;">Categorías</h3>
                     <div class="category-list">
-                        <button class="category-btn active" data-filter="all"><i class="bi bi-fire"></i> Todo</button>
-                        <button class="category-btn" data-filter="comida-rapida"><i class="bi bi-burger"></i> Comida rápida</button>
-                        <button class="category-btn" data-filter="bebidas"><i class="bi bi-cup-straw"></i> Bebidas</button>
-                        <button class="category-btn" data-filter="postres"><i class="bi bi-cake2"></i> Postres</button>
-                        <button class="category-btn" data-filter="saludable"><i class="bi bi-egg-fried"></i> Saludable</button>
+                        <button class="category-btn active" data-filter="all" onclick="Filter()"><i class="bi bi-fire"></i> Todo</button>
+                        <button class="category-btn" data-filter="comida-rapida" onclick="Filter()"><i class="bi bi-burger"></i> Comida rápida</button>
+                        <button class="category-btn" data-filter="bebidas" onclick="Filter()"><i class="bi bi-cup-straw"></i> Bebidas</button>
+                        <button class="category-btn" data-filter="postres" onclick="Filter()"><i class="bi bi-cake2"></i> Postres</button>
+                        <button class="category-btn" data-filter="saludable" onclick="Filter()"><i class="bi bi-egg-fried"></i> Saludable</button>
                     </div>
                 </aside>
             </div>
         </div>
     </div>
-
-    <script>
-        // ===== LÓGICA DE MENÚS DESPLEGABLES (CLICK) =====
-        function toggleMenu(menuId, triggerElement) {
-            // Cerrar todos los menús abiertos
-            document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                if(menu.id !== menuId) menu.classList.remove('show');
-            });
-            // Quitar clase activa de otros botones
-            document.querySelectorAll('.profile-btn').forEach(btn => btn.classList.remove('active'));
-
-            // Alternar el menú clickeado
-            const menu = document.getElementById(menuId);
-            menu.classList.toggle('show');
-
-            // Si es el menú de perfil, activar el botón para el efecto de flecha
-            if(menuId === 'profile-dropdown') {
-                triggerElement.classList.toggle('active');
-            }
-        }
-
-        // Cerrar menús al hacer clic fuera
-        window.addEventListener('click', function(e) {
-            if (!e.target.closest('.action-item')) {
-                document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.remove('show'));
-                document.querySelectorAll('.profile-btn').forEach(btn => btn.classList.remove('active'));
-            }
-        });
-
-        // ===== VERIFICACIÓN DE SESIÓN =====
-        function verificarSesion() {
-            let isLoggedIn = false; // Cambiar a true para probar el flujo directo
-
-            if (isLoggedIn) {
-                window.location.href = 'detallesPedido.html';
-            } else {
-                Swal.fire({
-                    title: '¡Espera!',
-                    text: 'Debes iniciar sesión para ver el menú y ordenar.',
-                    icon: 'info',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d89a2e',
-                    cancelButtonColor: '#6b6363',
-                    confirmButtonText: 'Ir a Iniciar Sesión',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = 'login.html';
-                    }
-                });
-            }
-        }
-
-        // ===== FILTRO DE CATEGORÍAS (VISUAL) =====
-        document.querySelectorAll('.category-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-    </script>
 </body>
 </html>

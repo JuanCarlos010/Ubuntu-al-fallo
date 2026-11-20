@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../CSS/style.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/BackEnd/Login/function.js"></script>
 </head>
 <body>
     <div class="auth-wrapper">
@@ -38,7 +39,7 @@
                 <a href="#" class="text-decoration-none small fw-bold" style="color: var(--primary-orange);">¿Olvidaste tu contraseña?</a>
             </div>
 
-            <button class="btn btn-primary-custom w-100 mb-4" onclick="simularLogin()">
+            <button class="btn btn-primary-custom w-100 mb-4" onclick="login()">
                 <i class="bi bi-box-arrow-in-right me-2"></i> Iniciar Sesión
             </button>
 
@@ -48,26 +49,6 @@
         </div>
     </div>
 
-    <script>
-        function simularLogin() {
-            let email = document.getElementById('emailInput').value;
-            let pass = document.getElementById('passwordInput').value;
-
-            if(!email || !pass) {
-                Swal.fire('Campos vacíos', 'Por favor, llena todos los campos.', 'warning');
-                return;
-            }
-
-            Swal.fire({
-                title: '¡Bienvenido!',
-                text: 'Inicio de sesión exitoso. Redirigiendo...',
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false
-            }).then(() => {
-                window.location.href = 'detallesPedido.html';
-            });
-        }
-    </script>
+    
 </body>
 </html>
