@@ -1,0 +1,66 @@
+
+html,
+body {
+    background-color: #cd7137 !important;
+    background-image: none !important; /* anula el radial-gradient de style.css */
+    padding-top: 0 !important;         /* anula el padding de navbar de style.css */
+    min-height: 100vh;
+}
+
+/* Contenedor que centra la tarjeta vertical y horizontalmente */
+.auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Tarjeta clara */
+.auth-box {
+    background-color: var(--bg-card, #ffffff);
+    border-radius: var(--border-radius, 16px);
+    box-shadow: var(--shadow-lg, 0 15px 35px rgba(0,0,0,0.12));
+    padding: 35px 30px;
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid rgba(0,0,0,0.03);
+}
+
+/* Logo dentro de la tarjeta */
+.auth-box .auth-logo {
+    width: 80px;
+    margin-bottom: 15px;
+}
+
+/* Inputs con estilo acorde a la paleta */
+.auth-box .input-group-text {
+    background-color: var(--bg-cream, #fdf6e9);
+    border: 1px solid #e8d5b5;
+    color: var(--primary-orange, #d89a2e);
+}
+
+.auth-box .form-control {
+    border: 1px solid #e8d5b5;
+}
+
+.auth-box .form-control:focus {
+    border-color: var(--primary-orange, #d89a2e);
+    box-shadow: 0 0 0 0.2rem rgba(216, 154, 46, 0.25);
+}
+
+/* Enlaces dentro de la tarjeta */
+.auth-box a {
+    color: var(--primary-orange, #d89a2e) !important;
+}
+
+.auth-box a:hover {
+    color: var(--accent-red, #ff9d00) !important;
+}
+
+/* Responsive: ajustes finos en móvil */
+@media (max-width: 576px) {
+    .auth-box {
+        padding: 25px 20px;
+    }
+}
