@@ -25,7 +25,8 @@ CREATE TABLE users (
     name VARCHAR(50),
     lastName VARCHAR(50),
     email VARCHAR(40),
-    password VARCHAR(10)
+    password VARCHAR(10),
+    rol VARCHAR(10)
 );
 
 CREATE TABLE restaurant (
